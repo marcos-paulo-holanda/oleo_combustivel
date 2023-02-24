@@ -1,0 +1,180 @@
+#title .container-fluid{
+  padding: 3% 15%;
+}
+
+#features{
+  padding: 7% 15%;
+  text-align: left;
+}
+
+#testimonials {
+  background-color: #ffaa00;
+}
+
+#press{
+  background-color: #ffaa00;
+  padding-bottom: 3%;
+}
+
+#pricing{
+  padding: 100px;
+}
+
+#footer{
+  padding: 20px 0 20px 0;
+}
+
+#cta{
+  padding: 0% 25%;
+  text-align: center;
+}
+
+body{
+  font-family: "Montserrat";
+  text-align: center;
+}
+
+h1, h2, h3{
+  font-family: 'Montserrat-Black';
+
+}
+
+p{
+  color: black;
+}
+
+/* Heading */
+
+.head1{
+  font-size: 3rem;
+  line-height: 1.5;
+  color: white;
+  font-weight: bold;
+}
+
+.container-fluid{
+  padding: 3% 15%;
+}
+
+/* Section */
+
+.colored-section{
+  background-color: #ffaa00;
+  color: #fff;
+}
+
+.white-section{
+  background-color: #DEB887;
+}
+
+/* Navigation Bar */
+.navbar{
+  padding-bottom: 4.5rem;
+}
+
+.nav-item{
+  padding: 0 20px;
+}
+
+.nav-link{
+  font-size: 1.2rem;
+  font-family: "Montserrat-Light";;
+}
+
+.navbar-toggler{
+  border-color: black;
+}
+
+/* Download Buttons */
+
+.donwload-button{
+  margin: 5% 3% 5% 0;
+}
+
+/* Title Image */
+.mel-image{
+  border-radius: 100%;
+  transform: rotate(0deg);
+  height: 350px;
+  width: 300px;
+  position: absolute;
+  right: 20%;
+}
+
+.logo-image{
+  border-radius: 40px;
+  max-width:200px;
+  max-height:150px;
+  width: auto;
+  height: auto;
+}
+
+.pote{
+  max-width:250px;
+  max-height:200px;
+  width: auto;
+  height: auto;
+  border-radius: 10%;
+}
+
+.maps-image{
+  max-width:700px;
+  max-height:550px;
+  width: auto;
+  height: auto;
+  border-radius: 10%;
+}
+
+.testimonial-image{
+  width: 20%;
+  border-radius: 100%;
+  margin: 20px;
+}
+
+.testimonial-text{
+  font-size: 3rem;
+  line-height: 1.5;
+}
+
+.press-logo{
+  width: 15%;
+  margin: 20px 20px 50px;
+}
+
+.feature-box{
+  padding: 5%;
+}
+
+.feature-title{
+  font-weight: bold;
+}
+
+/* Icon changes */
+.icon{
+  color: #ef8172;
+  margin-bottom: 1rem;
+}
+
+.icon:hover{
+  color: #ff4c68;
+}
+
+.carousel-item{
+  padding: 7% 15%;
+}
+
+.pricing-col{
+  padding: 3% 2%;
+}
+
+/* Media queries are a feature of CSS that enable webpage content to adapt to different screen sizes and resolutions. */
+@media(max-width: 1028px){
+  #title{
+    text-align: center;
+  }
+
+  .mel-image{
+    position: static;
+  }
+
+}
