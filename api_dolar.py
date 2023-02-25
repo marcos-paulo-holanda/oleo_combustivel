@@ -3,14 +3,16 @@ Captura em tempo real o valor de cotação do Petróleo Brent, salvo os valores 
 Link de acesso para valor do Brent: https://oilprice.com/oil-price-charts/#Brent-Crude
 Link de acesso para cotação do dóalr: https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/aplicacao#!/recursos/CotacaoDolarPeriodo
 '''
+import sqlite3
+import os
 import requests as req
 import pandas as pd
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import interpolate
-import sqlite3
 from datetime import datetime, timedelta
+import time
 from bs4 import BeautifulSoup
 
 class Dolar:
@@ -112,10 +114,9 @@ class Grafico:
         plt.xticks(x, rotation=0)
         for a,b in zip(x,y):
             plt.text(a,b,str(b), rotation = 75)
-    
+            
         plt.savefig('images/fuel_line_img.jpg')
-
-
+    
     def barra(self,df):
         ano_mes = str(df.data[0][:7])
         x = [int(value[8:]) for value in df['data']]
@@ -130,6 +131,7 @@ class Grafico:
             plt.text(a,b,str(b))
 
         plt.savefig('images/fuel_bar_img.jpg')
+
         
 if __name__ == "__main__":
     data_cotac, venda_cotac = Dolar().cotacao_dolar()
@@ -146,8 +148,4 @@ if __name__ == "__main__":
 
     Grafico().barra(df)
     Grafico().linha(df)
-    print('----- The process has been completed --', '\n')
-    input('----- Press any button to finish ------')
-    
-    
     
