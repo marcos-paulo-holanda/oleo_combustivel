@@ -8,7 +8,7 @@
 }
 
 #testimonials {
-  background-color: #08340d;
+  background-color: #006129;
 }
 
 #press{
@@ -60,12 +60,21 @@ p{
 /* Section */
 
 .colored-section{
-  background-color: #006129;
+  background-color: #08340d;
   color: #fff;
+}
+
+.loc-section{
+	background-color: #006129;
 }
 
 .river-section{
   background-color: #80c6a6;
+}
+
+.description-section{
+	background-color: #80c6a6;
+	height: 35em;
 }
 
 .squad-section{
@@ -171,12 +180,12 @@ p{
 
 /* Icon changes */
 .icon{
-  color: #ef8172;
+  color: #860500;
   margin-bottom: 1rem;
 }
 
 .icon:hover{
-  color: #ff4c68;
+  color: #d7805d;
 }
 
 .carousel-item{
