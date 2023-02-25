@@ -1,8 +1,7 @@
 '''
-https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/aplicacao#!/recursos/CotacaoDolarPeriodo
-
-Captura em tempo real o valor de cotação do Petróleo Brent
-Link de acesso: https://oilprice.com/oil-price-charts/#Brent-Crude
+Captura em tempo real o valor de cotação do Petróleo Brent, salvo os valores em um bd e gera gráficos que são salvos numa pasta.
+Link de acesso para valor do Brent: https://oilprice.com/oil-price-charts/#Brent-Crude
+Link de acesso para cotação do dóalr: https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/aplicacao#!/recursos/CotacaoDolarPeriodo
 '''
 import requests as req
 import pandas as pd
@@ -78,12 +77,12 @@ class DatabaseTable(DatabaseConnector):
 
     def create_table(self):
         '''Cria a tabela caso não exista'''
-        sql_query = "CREATE TABLE IF NOT EXISTS OleoAcomp (data text, dolar float, brent text)"
+        sql_query = "CREATE TABLE IF NOT EXISTS ParidadeOCA1 (data text, dolar float, brent text)"
         self.cur.execute(sql_query)
         self.conn.commit()
 
 class Dataframe:
-    '''Classe para colocar os dados do db numa dataframe do pandas e plotar os gráficos'''
+    '''Classe para colocar os dados do db numa dataframe do pandas'''
     def pandas_df(self, database_name, table_name):
         cnx = sqlite3.connect(database_name)
         df = pd.read_sql_query("SELECT * FROM " + table_name, cnx)
@@ -95,6 +94,9 @@ class Dataframe:
         return df
 
 class Grafico:
+    '''Classe para criação de gráficos dos dados da dataframe gerada através do bd.
+    Os gráficos gerados são salvos na pasta de imagens.
+    '''
     def linha(self, df):
         ano_mes = str(df.data[0][:7])
         x = [int(value[8:]) for value in df['data']]
@@ -106,7 +108,7 @@ class Grafico:
         
         plt.title('Fuel Oil -- Período ' + ano_mes)
         plt.xlim(min(x) - 0.3, max(x) + 0.3),plt.ylim(min(y) - 20, max(y) + 20)
-        plt.xlabel('Dias'), plt.ylabel('Fuel Oil')
+        plt.xlabel('Dia'), plt.ylabel('Fuel Oil')
         plt.xticks(x, rotation=0)
         for a,b in zip(x,y):
             plt.text(a,b,str(b), rotation = 75)
@@ -122,7 +124,7 @@ class Grafico:
         g = sns.barplot(data=df, x=x, y=y, color ='#eab676')
         g.bar_label(g.containers[0])
         plt.title('Fuel Oil -- Período ' + ano_mes)
-        plt.xlabel('Dias')
+        plt.xlabel('Dia')
         plt.ylabel('Fuel Oil')
         for a,b in zip(x,y):
             plt.text(a,b,str(b))
@@ -136,13 +138,16 @@ if __name__ == "__main__":
     db = DatabaseTable('oleo_database.db')
     db.conecta_db()
     db.create_table()
-    #db.cria_registros('OleoAcomp',data_tuple)
+    db.cria_registros('ParidadeOCA1',data_tuple)
     db.desconecta_db()
 
     # Criação das imagens do gráficos
-    df = Dataframe().pandas_df('oleo_database.db', 'OleoAcomp')
+    df = Dataframe().pandas_df('oleo_database.db', 'ParidadeOCA1')
 
+    Grafico().barra(df)
     Grafico().linha(df)
+    print('----- The process has been completed --', '\n')
+    input('----- Press any button to finish ------')
     
     
     

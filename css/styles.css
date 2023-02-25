@@ -3,7 +3,7 @@
 }
 
 #features{
-  padding: 7% 15%;
+  padding: 7% 10%;
   text-align: left;
 }
 
@@ -64,8 +64,14 @@ p{
   color: #fff;
 }
 
-.white-section{
+.river-section{
   background-color: #80c6a6;
+}
+
+.squad-section{
+  background-color: #80c6a6;
+  text-align: center;
+  height: 15em;
 }
 
 /* Navigation Bar */
@@ -126,9 +132,22 @@ p{
   border-radius: 10%;
 }
 
+.squad{
+	display: flex;
+	justify-content: cernter;
+	list-style-type: none;
+	margin-right: 10em;
+}
+
+.squad-image{
+	border-radius: 100%;
+	max-width: 5em;
+	max-height: 5em;
+}
+
 .testimonial-image{
-  width: 20%;
-  border-radius: 100%;
+  width: auto%;
+  border-radius: 10%;
   margin: 20px;
 }
 
