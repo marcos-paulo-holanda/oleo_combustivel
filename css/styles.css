@@ -184,6 +184,10 @@ p{
   margin-bottom: 1rem;
 }
 
+.icon-tab{
+	margin-right: 1em;
+}
+
 .icon:hover{
   color: #d7805d;
 }
