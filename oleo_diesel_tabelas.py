@@ -75,9 +75,6 @@ class JuntaTabelas:
         idx = [v.replace('.', '/') for v in idx]
         tf_t.index = idx
 
-        # Incrementa as datas que não possuem registros do pdf
-        # tf_t['sort_dates'] = tf_t.index.astype('datetime64[ns]')
-        #tf_t['sort_dates'] = pd.to_datetime(tf_t.index)
         for i in range(1,len(tf_t)):
             data_inicio = datetime.strptime(tf_t.index[i-1], '%d/%m/%Y')
             data_fim = datetime.strptime(tf_t.index[i], '%d/%m/%Y')
@@ -89,8 +86,6 @@ class JuntaTabelas:
                 incremento  = data_inicio + timedelta(days=d)
                 data_incremento = incremento.strftime('%d/%m/%Y')
                 tf_t.loc[data_incremento] = nova_linha
-
-        #tf_t.sort_values(by='sort_dates', inplace = True)
           
         return tf_t
 
@@ -125,7 +120,23 @@ class ConverterUnidadeMedida:
         tabelao.replace([float(0)], '', inplace = True)
         
         return tabelao
+    
+#-----------------------------------------------------------------------------------------------------------------------------------
+class HtmlPage:
+    '''Recebe uma dataframe, converte para html e formata o mesmo'''
+    def html_file(self,df, file_name):
+        # converte a df para html
+        html_file = df.to_html()
+        index_file = open('index_' + file_name + '.html', 'w')
+        index_file.write(html_file)
+        index_file.close()
+        # Formata o arquivo com código css
+        file = open('index_' + file_name + '.html', 'a')
+        text = '<link rel="stylesheet" href="css/styles.css">'
+        file.write(text)
+        file.close()
 
+    
 if __name__ == "__main__":
     # Execucação do script p/ o óleo combustível A1
     pdf = GerarPdf("https://precos.petrobras.com.br/documents/77785/82038/Tabelas+de+Pre%C3%A7os+-+OC+-+25-01-23.pdf/\
@@ -143,11 +154,11 @@ if __name__ == "__main__":
     f = GerarTabelas(16,85, "oleoCombustivel").tabela_sem_indices()
     g = GerarTabelas(16,102, "oleoCombustivel").tabela_sem_indices()
     h = GerarTabelas(16,119, "oleoCombustivel").tabela_sem_indices()
-
     tabelao = JuntaTabelas(a,b,c,d,e,f,g,h).tabela_final()
     saum = ConverterUnidadeMedida(tabelao).converte(980)
     
-    #tabelao.to_excel(r'oleoCombustivelA1.xlsx', sheet_name='oleoA1', index=True)
+    #convertendo dataframe para html e escrevendo no arquivo index.html
+    HtmlPage().html_file(saum, 'sa1')
 
     os.remove("oleoCombustivel.pdf")
     os.remove("oleoCombustivel.csv")
@@ -159,7 +170,6 @@ if __name__ == "__main__":
                    "diesel"
         )
     
-
     pdf.baixa_pdf_csv()
 
     s500a = GerarTabelas(77,0, "diesel").tabela()
@@ -172,14 +182,8 @@ if __name__ == "__main__":
     tabelao = JuntaTabelas(s500a, s500b, s500c, s500d, s500e, s500f, s500g, s500g).tabela_final()
     tabelao.drop(tabelao.columns[[-1]], axis = 1, inplace = True)
     s500 = ConverterUnidadeMedida(tabelao).converte(1000)
-
-    #convertendo dataframe para html e escrevendo no arquivo index.html
-    html_s500 = s500.to_html()
-    index_file = open('index.html', 'w')
-    index_file.write(html_s500)
-    index_file.close()
-
-    #tabelao.to_excel(r'dieselS500.xlsx', sheet_name='S500', index=True)
+    
+    HtmlPage().html_file(s500, 's500')
 
     s10a = GerarTabelas(71,546, "diesel").tabela()
     s10b = GerarTabelas(71,618, "diesel").tabela_sem_indices()
@@ -192,7 +196,7 @@ if __name__ == "__main__":
     tabelao.drop(tabelao.columns[[-1]], axis = 1, inplace = True)
     s10 = ConverterUnidadeMedida(tabelao).converte(1000)
 
-    #tabelao.to_excel(r'dieselS10.xlsx', sheet_name='S10', index=True)
+    HtmlPage().html_file(s10, 's10')
     
     os.remove("diesel.pdf")
     os.remove("diesel.csv")

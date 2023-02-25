@@ -8,7 +8,7 @@
 }
 
 #testimonials {
-  background-color: #ffaa00;
+  background-color: #08340d;
 }
 
 #press{
@@ -28,6 +28,7 @@
   padding: 0% 25%;
   text-align: center;
 }
+
 
 body{
   font-family: "Montserrat";
@@ -59,12 +60,12 @@ p{
 /* Section */
 
 .colored-section{
-  background-color: #ffaa00;
+  background-color: #006129;
   color: #fff;
 }
 
 .white-section{
-  background-color: #DEB887;
+  background-color: #80c6a6;
 }
 
 /* Navigation Bar */
@@ -92,13 +93,13 @@ p{
 }
 
 /* Title Image */
-.mel-image{
-  border-radius: 100%;
+.navio-image{
+  border-radius: 10%;
   transform: rotate(0deg);
-  height: 350px;
-  width: 300px;
+  height: 270px;
+  width: 500px;
   position: absolute;
-  right: 20%;
+  right: 5%;
 }
 
 .logo-image{
@@ -167,13 +168,36 @@ p{
   padding: 3% 2%;
 }
 
+.btn-dark{
+	background-color: #ff9959;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th {
+	height: 30px;
+	background-color: #006129;
+	color: #80c6a6;
+}
+
+th, td {
+	padding: 10px;
+}
+
+tr:hover{
+background-color: lightgreen;
+}
+
 /* Media queries are a feature of CSS that enable webpage content to adapt to different screen sizes and resolutions. */
 @media(max-width: 1028px){
   #title{
     text-align: center;
   }
 
-  .mel-image{
+  .navio-image{
     position: static;
   }
 

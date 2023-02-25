@@ -111,8 +111,7 @@ class Grafico:
         for a,b in zip(x,y):
             plt.text(a,b,str(b), rotation = 75)
     
-        #plt.savefig('fuel_oil_line_img.jpg')
-        plt.show()
+        plt.savefig('images/fuel_line_img.jpg')
 
 
     def barra(self,df):
@@ -128,10 +127,8 @@ class Grafico:
         for a,b in zip(x,y):
             plt.text(a,b,str(b))
 
-        plt.savefig('fuel_oil_bar_img.jpg')
-        #plt.show()    
+        plt.savefig('images/fuel_bar_img.jpg')
         
-
 if __name__ == "__main__":
     data_cotac, venda_cotac = Dolar().cotacao_dolar()
     brent_cotac = Oleo().brent()
