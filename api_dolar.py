@@ -35,7 +35,7 @@ class Dolar:
 
         datas = [x[:10] for x in datas]
 
-        return datas[0], venda[0]
+        return datas[-1], venda[-1]
 
 class Oleo:
     def brent(self):
