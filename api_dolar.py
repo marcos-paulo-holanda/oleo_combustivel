@@ -10,7 +10,6 @@ import pandas as pd
 import seaborn as sns
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy import interpolate
 from datetime import datetime, timedelta
 import time
 from bs4 import BeautifulSoup
