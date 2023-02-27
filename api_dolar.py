@@ -102,7 +102,7 @@ class Dataframe:
         cnx.commit()
         cnx.close()
         df.brent = pd.to_numeric(df.brent)
-        df['fuel oil'] = round(df.dolar*df.brent*0.71388,2)
+        df['fuel oil'] = round(df.dolar*df.brent*0.0071388,2)
         
         return df
 
