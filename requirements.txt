@@ -5,3 +5,4 @@ beautifulsoup4
 tabula
 tabula-py
 ipython
+mysql-connector-python

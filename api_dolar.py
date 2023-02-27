@@ -13,13 +13,14 @@ import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import time
 from bs4 import BeautifulSoup
+import mysql.connector
 
 class Dolar:
     '''Objeto para retonar a data e cotação de venda do dólar'''
     def cotacao_dolar(self):
             
         dI = datetime.today().strftime("%m-%d-%Y")
-        dF = datetime.today() - timedelta(days=1) # range de dias a serem buscado
+        dF = datetime.today() - timedelta(days=3) # range de dias a serem buscado
         dF = dF.strftime("%m-%d-%Y")
 
         prd = "https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarPeriodo(dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?@dataInicial=" \
@@ -53,12 +54,20 @@ class Oleo:
 
 class DatabaseConnector:
     '''Classe para conectar ao banco de dados.'''
-    def __init__(self,  db_path):
+    def __init__(self,  db_path, login, psw):
         self.db_path = db_path
+        self.login = login
+        self.psw = psw
 
     def conecta_db(self):
         '''Conecta ao banco com o caminho especificado pelo atributo db_path'''
-        self.conn = sqlite3.connect(self.db_path)
+        self.conn = mysql.connector.connect(
+                user=self.login,
+                password=self.psw,
+                host="mrn-mysql-database.mysql.database.azure.com",
+                port=3306,
+                database=self.db_path,
+                ssl_disabled=True)
         self.cur = self.conn.cursor()
 
     def desconecta_db(self):
@@ -72,13 +81,13 @@ class DatabaseTable(DatabaseConnector):
 
     def cria_registros(self, table_name, data_tuple):
         '''Recebe o nome da tabela e cria registro nela'''
-        sql_query = "INSERT INTO " + table_name +  " VALUES (?,?,?);"
+        sql_query = "INSERT INTO " + table_name +  " VALUES ( %s, %s, %s);"
         self.cur.execute(sql_query, data_tuple)
         self.conn.commit()
 
     def create_table(self):
         '''Cria a tabela caso não exista'''
-        sql_query = "CREATE TABLE IF NOT EXISTS ParidadeOCA1 (data text, dolar float, brent text)"
+        sql_query = "CREATE TABLE IF NOT EXISTS paridadeoca1 (data text, dolar float, brent text);"
         self.cur.execute(sql_query)
         self.conn.commit()
 
@@ -136,14 +145,15 @@ if __name__ == "__main__":
     data_cotac, venda_cotac = Dolar().cotacao_dolar()
     brent_cotac = Oleo().brent()
     data_tuple = tuple([data_cotac,venda_cotac, brent_cotac])
-    db = DatabaseTable('oleo_database.db')
+    db = DatabaseTable('oleo_database', 'mrndblogin', 'senha@2023')
     db.conecta_db()
     db.create_table()
-    db.cria_registros('ParidadeOCA1',data_tuple)
+    db.cria_registros('paridadeoca1',data_tuple)
     db.desconecta_db()
 
     # Criação das imagens do gráficos
-    df = Dataframe().pandas_df('oleo_database.db', 'ParidadeOCA1')
+    db.conecta_db()
+    df = Dataframe().pandas_df('oleo_database.db', 'paridadeoca1')
 
     Grafico().barra(df)
     Grafico().linha(df)
