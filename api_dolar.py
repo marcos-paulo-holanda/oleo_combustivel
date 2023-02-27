@@ -36,7 +36,7 @@ class Dolar:
 
         datas = [x[:10] for x in datas]
 
-        return datas[-1], venda[-1]
+        return datas[-1], venda[-1] #o indice -1 pega o valor mais recente cotado no mercado
 
 class Oleo:
     def brent(self):
@@ -60,7 +60,7 @@ class DatabaseConnector:
         self.psw = psw
 
     def conecta_db(self):
-        '''Conecta ao banco com o caminho especificado pelo atributo db_path'''
+        '''Conecta ao banco com o caminho mysql na azure'''
         self.conn = mysql.connector.connect(
                 user=self.login,
                 password=self.psw,
@@ -77,7 +77,10 @@ class DatabaseConnector:
         self.cur = None
 
 class DatabaseTable(DatabaseConnector):
-    '''Conecta ao banco e realiza operações de CRUD'''
+    '''Classe filha da DatabaseConnector.
+    --- Possui como métodos criar a tabela no BD caso não exista e
+        inserir registros na tabela.
+    '''
 
     def cria_registros(self, table_name, data_tuple):
         '''Recebe o nome da tabela e cria registro nela'''
@@ -92,7 +95,7 @@ class DatabaseTable(DatabaseConnector):
         self.conn.commit()
 
 class Dataframe:
-    '''Classe para colocar os dados do db numa dataframe do pandas'''
+    '''Classe para colocar os dados do BD numa dataframe do pandas'''
     def pandas_df(self, database_name, table_name):
         cnx = sqlite3.connect(database_name)
         df = pd.read_sql_query("SELECT * FROM " + table_name, cnx)
