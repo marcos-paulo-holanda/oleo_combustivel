@@ -1,7 +1,7 @@
 '''
 Captura em tempo real o valor de cotação do Petróleo Brent, salvo os valores em um bd e gera gráficos que são salvos numa pasta.
 Link de acesso para valor do Brent: https://oilprice.com/oil-price-charts/#Brent-Crude
-Link de acesso para cotação do dóalr: https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/aplicacao#!/recursos/CotacaoDolarPeriodo
+Link de acesso para cotação do dolar: https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/aplicacao#!/recursos/CotacaoDolarPeriodo
 '''
 import sqlite3
 import os
