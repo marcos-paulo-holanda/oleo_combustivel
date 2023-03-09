@@ -2,6 +2,8 @@ import pandas as pd
 import tabula
 import locale
 from datetime import datetime, timedelta, date
+from warnings import simplefilter
+simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
 class Tabela:
     """Classe para gerar tabelas no pandas através da leitura dos dados do arquivo pdf baixado"""
@@ -66,6 +68,15 @@ class Tabela:
                     datetime.strftime((datetime.strptime(key, '%d/%m/%Y') + timedelta(days = n)), "%d/%m/%Y"),
                     tb[key]
                     )
+                
+        # Verifica se a última data de lançamento é diferente a data atual de rodagem do programa
+        if datetime.strptime(list(tb.iloc[:,-1:].columns)[0], "%d/%m/%Y") != date.today():
+            n_insertion  = abs((datetime.today() - datetime.strptime(list(tb.iloc[:,-1:].columns)[0], "%d/%m/%Y")).days)
+            for n in range(n_insertion):
+                series = tb.iloc[ : ,-1]
+                series.rename(datetime.strftime(datetime.strptime(tb.iloc[ : ,-1].name, "%d/%m/%Y") + timedelta(days = 1), "%d/%m/%Y"), inplace = True)
+                tb = pd.concat([tb, series], axis = 1 )
+
         # Transpoe a tabela para qual as datas se tornam os indices da tabela
         tb = tb.T
         tb = tb.set_axis(tb.iloc[0, :], axis=1)
