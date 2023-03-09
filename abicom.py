@@ -2,7 +2,7 @@ import requests
 import shutil
 from datetime import datetime
 from bs4 import BeautifulSoup as bs
-
+from PIL import Image
 
 def baixa_image_ppi():
     data_lanc = datetime.strftime(datetime.today(), "%d-%m-%Y")
@@ -19,16 +19,16 @@ def baixa_image_ppi():
 
     ppi = requests.get(imgs_links[2]).content
 
-    with open('ppi_image.jpeg', 'wb') as handler:
+    with open('ppi_image.png', 'wb') as handler:
         handler.write(ppi)
     
-    
-
-from PIL import Image
-import pytesseract
 
 
 
-#text = pytesseract.image_to_string(Image.open('ppi_image.jpeg'))
 
-#print(ocr_core('ppi_image.jpeg'))
+    image = Image.open("ppi_image.png")
+    im_1 = image.convert('RGB')
+    im_1.save("ppi_rgb.pdf")
+
+
+
