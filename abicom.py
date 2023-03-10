@@ -32,7 +32,7 @@ def abicom_ppi_value():
     img2.save('cropped.jpeg')
     i = Image.open('cropped.jpeg')
     text = pytesseract.image_to_string(i)
-    ppi_value=text[:5]
+    ppi_value=text[:6]
     ppi_value = ppi_value.replace(',','.')
 
     os.remove('ppi_image.jpeg')
