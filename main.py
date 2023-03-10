@@ -12,46 +12,16 @@ from database_access import *
 from converte_unidades import *
 from ream import *
 from html_page import *
+from fuel_oil import *
+from abicom import *
 
-class DatabaseConnector:
-    '''Classe para conectar ao banco de dados.'''
-    def __init__(self,  db_path, login, psw):
-        self.db_path = db_path
-        self.login = login
-        self.psw = psw
-
-    def conecta_db(self):
-        '''Conecta ao banco com o caminho mysql na azure'''
-        self.conn = mysql.connector.connect(
-                user=self.login,
-                password=self.psw,
-                host="mrn-mysql-database.mysql.database.azure.com",
-                port=3306,
-                database=self.db_path,
-                ssl_disabled=True)
-        self.cur = self.conn.cursor()
-
-    def desconecta_db(self):
-        '''Encerra a conecção com o banco de dados'''
-        self.conn.close()
-        self.conn = None
-        self.cur = None
-
-class DatabaseTable(DatabaseConnector):
-    '''Conecta ao banco e realiza operações de CRUD'''
-    
-
-    def insert_data(self, table_name, data_tuple):
-        sql_query = "INSERT INTO " + table_name +  " VALUES (NULL, %s, %s, %s);"
-        self.cur.execute(sql_query, data_tuple)
-        self.conn.commit()
 
 #----------------------------------------------------------------------------------------------------------------------------------- 
 if __name__ == "__main__":
     # Execucação do script p/ o óleo combustível A14
     catch = 0
     data_ult_lanc = date.today()
-    
+    '''  
     while catch == 0:
         link = "https://precos.petrobras.com.br/documents/d/precos-dos-combustiveis/tabelas-de-precos-oc-"+ data_ult_lanc.strftime("%d-%m-%y") +"-pdf"
         if requests.get(link).status_code == 200:
@@ -59,8 +29,7 @@ if __name__ == "__main__":
             catch += 1
         else:
             data_ult_lanc = data_ult_lanc - timedelta(days=1) 
-
-    print(link)     
+     
     pdf.baixa_pdf()
 
     # Criando a tabela com os dados do pdf baixado
@@ -80,31 +49,44 @@ if __name__ == "__main__":
     # Colocando o valor da Ream para Manaus
     data_atual = date.today()
 
+    # TryExecept para pegar o valor do OCA1 da Ream do mes atual ou anterior caso o valor do mes atual n exista
     try:
         rv = Ream('oca1', data_atual.month, data_atual.year).ream_value()
     except:
         rv = Ream('oca1', data_atual.month-1, data_atual.year).ream_value()
-        
-    if datetime.strptime(a1.index[-1], '%d/%m/%Y').day != data_atual.day:
-        pass
-    else:
-        pass
+
+    #Substituindo os valores de Manaus conforme o divulgado pela Ream
+    a1['MANAUS (AM) FOB'] = a1['MANAUS (AM) FOB'].replace([''],[str(rv)])
+
+    # Ult lanc do OCA1. Pega a ult linha da DF a1 para inserir no BD ou Excel
+    last_a1 = a1.iloc[-1:,:]
+
+    # Valor do fuel Oil
+    fuel_oil = fuel_oil_price()
+
+    # Média das refinarias exceto Manaus
+    med_ref = last_a1.drop('MANAUS (AM) FOB', axis = 1).values[0]
+    med_ref = np.array([round(x,4) for x in med_ref if type(x) == float]).mean()
+    med_ref = round(med_ref, 4)
+
+    # Defini a linha para ser inserida no BD ou Excel
+    last_a1_values = list(last_a1.values[0])
+    for i in range(len(last_a1_values)):
+        if type(last_a1_values[i]) == float:
+            last_a1_values[i] = str(round(last_a1_values[i],4))
+
+    last_a1_values.append(str(fuel_oil))
+    last_a1_values.append(str(med_ref))
+    last_a1_values.insert(0, datetime.strftime(data_atual, '%d/%m/%Y'))
     
-    clone_a1 = a1.reset_index()
-    print(a1)
-    print('')
-    print(rv)
-    exit()
-
-    HtmlPage().html_file(a1, 'oca1')
-
-    os.remove("oleoCombustivel.pdf")
+    os.remove("oc.pdf")
+    '''
     # ------------------------------------------------------------------------------------------------------------------------
 
     # Execução do script p/ o diesel S500 e S10
     catch = 0
     data_ult_lanc = date.today()
-
+    
     while catch == 0:
         link = "https://precos.petrobras.com.br/documents/d/precos-dos-combustiveis/tabelas-de-precos-diesel-s500-e-s10-"+ data_ult_lanc.strftime("%d-%m-%y") +"-pdf"
         if requests.get(link).status_code == 200: 
@@ -119,7 +101,19 @@ if __name__ == "__main__":
     s10 = Tabela("diesel").concat_pdf_tables(num_pages_a + 1, num_pages_a + num_pages_b)
     s10 = Tabela("diesel").rearrange(s10)
     s10 = UnidadeMedida(s10).divide_por(1000)
-    HtmlPage().html_file(s10, 'diesel_s10')
+
+    #Substituindo os valores de Manaus conforme o divulgado pela Ream
+    data_atual = date.today()
+    rv = Ream('s10', data_atual.month, data_atual.year).ream_value()
+    s10['Manaus (AM) EXA'] = s10['Manaus (AM) EXA'].replace([''],[str(rv)])
+
+    # Pega a ult linha da df
+    last_s10 = s10.iloc[-1:,:]
+
+    # Inserindo o valor da Abicom
+    abicom_ppi_value()
+    abicom = float(input('Digite o valor do PPI no formato x.xxx: '))
+    os.remove("ppi_image.png")
     
     os.remove("diesel.pdf")
     # ------------------------------------------------------------------------------------------------------------------------

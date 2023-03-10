@@ -1,10 +1,16 @@
 import requests
-import shutil
+import os
 from datetime import datetime
 from bs4 import BeautifulSoup as bs
+import matplotlib.pyplot as plt
+import matplotlib.image as img
 from PIL import Image
+import tabula
+import pytesseract
+import cv2
 
-def baixa_image_ppi():
+def abicom_ppi_value():
+    
     data_lanc = datetime.strftime(datetime.today(), "%d-%m-%Y")
 
     link = "https://abicom.com.br/ppi/ppi-"+ data_lanc +"/"
@@ -19,16 +25,20 @@ def baixa_image_ppi():
 
     ppi = requests.get(imgs_links[2]).content
 
-    with open('ppi_image.png', 'wb') as handler:
+    with open('ppi_image.jpeg', 'wb') as handler:
         handler.write(ppi)
-    
 
 
+    image = img.imread('ppi_image.jpeg')
+    #plt.imshow(image)
+    #plt.show()
 
+    img = Image.open('ppi_image.jpeg')
 
-    image = Image.open("ppi_image.png")
-    im_1 = image.convert('RGB')
-    im_1.save("ppi_rgb.pdf")
+    box = (860, 87, 999, 113)
+    img2 = img.crop(box)
+    #img2.show()
+    #img2 = img2.convert('RGB')
+    #img2.save('ppi_image_cropped.pdf')
 
-
-
+    #df = tabula.read_pdf('ppi_image_cropped.pdf', pages='all')
