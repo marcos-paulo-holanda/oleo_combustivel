@@ -1,13 +1,10 @@
 import requests
+import pytesseract
+import cv2
 import os
 from datetime import datetime
 from bs4 import BeautifulSoup as bs
-import matplotlib.pyplot as plt
-import matplotlib.image as img
 from PIL import Image
-import tabula
-import pytesseract
-import cv2
 
 def abicom_ppi_value():
     
@@ -28,17 +25,18 @@ def abicom_ppi_value():
     with open('ppi_image.jpeg', 'wb') as handler:
         handler.write(ppi)
 
-
-    image = img.imread('ppi_image.jpeg')
-    #plt.imshow(image)
-    #plt.show()
-
     img = Image.open('ppi_image.jpeg')
 
     box = (860, 87, 999, 113)
     img2 = img.crop(box)
-    #img2.show()
-    #img2 = img2.convert('RGB')
-    #img2.save('ppi_image_cropped.pdf')
+    img2.save('cropped.jpeg')
+    i = Image.open('cropped.jpeg')
+    text = pytesseract.image_to_string(i)
+    ppi_value=text[:5]
+    ppi_value = ppi_value.replace(',','.')
 
-    #df = tabula.read_pdf('ppi_image_cropped.pdf', pages='all')
+    os.remove('ppi_image.jpeg')
+    os.remove('cropped.jpeg')
+    print(ppi_value)
+
+abicom_ppi_value()
