@@ -5,6 +5,8 @@ import os
 from datetime import datetime
 from bs4 import BeautifulSoup as bs
 from PIL import Image
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 def abicom_ppi_value():
 
@@ -25,8 +27,9 @@ def abicom_ppi_value():
     with open('ppi_image.jpeg', 'wb') as handler:
         handler.write(ppi)
 
+    '''
     img = Image.open('ppi_image.jpeg')
-
+    
     box = (860, 87, 999, 113)
     img2 = img.crop(box)
     img2.save('cropped.jpeg')
@@ -38,4 +41,13 @@ def abicom_ppi_value():
     os.remove('ppi_image.jpeg')
     os.remove('cropped.jpeg')
     return ppi_value
+    '''
+
+    img = mpimg.imread('ppi_image.jpeg')
+    imgplot = plt.imshow(img)
+    plt.show()
+    r = input('Digite o valor do PPI: ')
+    os.remove('ppi_image.jpeg')
+    return r
+
 
