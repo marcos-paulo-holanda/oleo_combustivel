@@ -39,7 +39,7 @@ def insert_data_diesel(table_name, data_tuple):
     conn.commit()
     
 
-df = pd.read_excel('historico.xlsx', header=0)
+df = pd.read_excel('historico2.xlsx', header=0)
 df.data = df.data.dt.strftime('%d/%m/%Y')
 
 for i in range(0, len(df)+1):
@@ -49,7 +49,7 @@ for i in range(0, len(df)+1):
             tupla.append(str(round(x,4)))
         else:
             tupla.append(x)
-    insert_data('bd_oc', tupla)
+    insert_data_diesel('bd_diesel_s10', tupla)
 
 
 
