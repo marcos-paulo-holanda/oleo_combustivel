@@ -9,7 +9,6 @@ from PIL import Image
 def abicom_ppi_value():
 
     data_lanc = datetime.strftime(datetime.today(), "%d-%m-%Y")
-    data_lanc = '10-03-2023'
 
     link = "https://abicom.com.br/ppi/ppi-"+ data_lanc +"/"
 
