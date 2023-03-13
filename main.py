@@ -21,7 +21,7 @@ if __name__ == "__main__":
     # Execucação do script p/ o óleo combustível A14
     catch = 0
     data_ult_lanc = date.today()
-    '''  
+      
     while catch == 0:
         link = "https://precos.petrobras.com.br/documents/d/precos-dos-combustiveis/tabelas-de-precos-oc-"+ data_ult_lanc.strftime("%d-%m-%y") +"-pdf"
         if requests.get(link).status_code == 200:
@@ -78,9 +78,9 @@ if __name__ == "__main__":
     last_a1_values.append(str(fuel_oil))
     last_a1_values.append(str(med_ref))
     last_a1_values.insert(0, datetime.strftime(data_atual, '%d/%m/%Y'))
-    
+    print(last_a1_values)
     os.remove("oc.pdf")
-    '''
+    
     # ------------------------------------------------------------------------------------------------------------------------
 
     # Execução do script p/ o diesel S500 e S10
@@ -110,11 +110,28 @@ if __name__ == "__main__":
     # Pega a ult linha da df
     last_s10 = s10.iloc[-1:,:]
 
-    # Inserindo o valor da Abicom
-    abicom_ppi_value()
-    abicom = float(input('Digite o valor do PPI no formato x.xxx: '))
-    os.remove("ppi_image.png")
-    
+    # pegando o valor do ppi
+    ppi_value = abicom_ppi_value()
+    # Media todas refinarias exceto Manaus
+    med_exceto_manaus = last_s10.drop('Manaus (AM) EXA', axis = 1).values[0]
+    med_exceto_manaus = str(round(np.array([round(x,4) for x in med_exceto_manaus if type(x) == float]).mean(),4))
+    # Media todas refinarias EXA exceto manaus
+    exa_values = []
+    for name in last_s10.columns:
+        if 'EXA' in name:
+            exa_values.append(last_s10[name].values[0])
+    med_exa = str(round(np.array([round(float(x), 4) for x in exa_values if type(x) != str]).mean(),4))
+    #Definindo a  linha a ser inserida no BD ou excel
+    last_s10_values = list(last_s10.values[0])
+    for i in range(len(last_s10_values)):
+        if type(last_s10_values[i]) == float:
+            last_s10_values[i] = str(round(last_s10_values[i],4))
+    last_s10_values.append(med_exceto_manaus)
+    last_s10_values.append(med_exa)
+    last_s10_values.insert(0, datetime.strftime(data_atual, '%d/%m/%Y'))
+    last_s10_values.insert(1, ppi_value)
+    print(last_s10_values)
+
     os.remove("diesel.pdf")
     # ------------------------------------------------------------------------------------------------------------------------
 

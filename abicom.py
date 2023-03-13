@@ -7,8 +7,9 @@ from bs4 import BeautifulSoup as bs
 from PIL import Image
 
 def abicom_ppi_value():
-    
+
     data_lanc = datetime.strftime(datetime.today(), "%d-%m-%Y")
+    data_lanc = '10-03-2023'
 
     link = "https://abicom.com.br/ppi/ppi-"+ data_lanc +"/"
 
@@ -37,6 +38,5 @@ def abicom_ppi_value():
 
     os.remove('ppi_image.jpeg')
     os.remove('cropped.jpeg')
-    print(ppi_value)
+    return ppi_value
 
-abicom_ppi_value()

@@ -1,8 +1,8 @@
 import pandas as pd
 import locale
 from datetime import datetime, timedelta, date
-import mysql.connector 
-   
+import mysql.connector
+
 
 def insert_data(table_name, data_tuple):
     sql_query = "INSERT INTO " + table_name +  " VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
