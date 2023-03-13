@@ -6,3 +6,6 @@ tabula
 tabula-py
 ipython
 mysql-connector-python
+pytesseract
+opencv-python
+lxml
