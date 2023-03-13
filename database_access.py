@@ -31,8 +31,14 @@ class DatabaseTable(DatabaseConnector):
         inserir registros na tabela.
     '''
 
-    def cria_registros(self, table_name, data_tuple):
+    def insere_registro(self, table_name, data_tuple):
         '''Recebe o nome da tabela e cria registro nela'''
-        sql_query = "INSERT INTO " + table_name +  " VALUES ( %s, %s, %s);"
+        if table_name == "bd_oc":
+            sql_query = "INSERT INTO " + table_name +  " VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+        elif table-name == "":
+            sql_query = "INSERT INTO " + table_name +  " VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\
+%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\
+ %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+
         self.cur.execute(sql_query, data_tuple)
         self.conn.commit()

@@ -14,6 +14,7 @@ from ream import *
 from html_page import *
 from fuel_oil import *
 from abicom import *
+from database_access import *
 
 
 #----------------------------------------------------------------------------------------------------------------------------------- 
@@ -133,6 +134,9 @@ if __name__ == "__main__":
     print(last_s10_values)
 
     os.remove("diesel.pdf")
+
+    # Inserindo linhas do OCA1 e do S10 no BD
+    
     # ------------------------------------------------------------------------------------------------------------------------
 
     
