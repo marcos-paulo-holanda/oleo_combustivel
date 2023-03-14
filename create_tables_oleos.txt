@@ -113,3 +113,36 @@ def create_table_oc(self):
 );"""
         self.cur.execute(sql_query)
         self.conn.commit()
+
+
+CREATE TABLE `bd_commodity` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`data` VARCHAR(15),
+	`brent` VARCHAR(10),
+	`var brent` VARCHAR(10),
+	`var acum brent` VARCHAR(10),
+	`oca1` VARCHAR(10),
+	`var oca1` VARCHAR(10),
+	`var acum oca1` VARCHAR(10),
+	`dolar` VARCHAR(10),
+	`var dolar` VARCHAR(10),
+	`var acum dolar` VARCHAR(10),
+	`fo` VARCHAR(10),
+	`var fo` VARCHAR(10),
+	`var acum fo` VARCHAR(10),
+	`fator fo` VARCHAR(10),
+	`prc manaus` VARCHAR(10),
+	`prc barcarena` VARCHAR(10),
+	`dif fo x manaus` VARCHAR(10),
+	`%  altz oca1` VARCHAR(10),
+	`% var acum ult altz oca1` VARCHAR(10),
+	`indicador var petr oca1` VARCHAR(10),
+	`realizado petr oca1` VARCHAR(10),
+	`diesel s10` VARCHAR(10),
+	`var  s10` VARCHAR(10),
+	`var acum  s10` VARCHAR(10),
+	`s500` VARCHAR(10),
+	`var s500` VARCHAR(10),
+	`var acum s500` VARCHAR(10),
+	PRIMARY KEY (`id`)
+);

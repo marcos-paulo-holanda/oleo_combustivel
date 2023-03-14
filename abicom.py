@@ -27,13 +27,14 @@ def abicom_ppi_value():
     with open('ppi_image.jpeg', 'wb') as handler:
         handler.write(ppi)
 
-    '''
-    img = Image.open('ppi_image.jpeg')
     
-    box = (860, 87, 999, 113)
+    img = Image.open('ppi_image.jpeg')
+    box = (860, 87, 985, 105)
     img2 = img.crop(box)
     img2.save('cropped.jpeg')
+    '''
     i = Image.open('cropped.jpeg')
+    
     text = pytesseract.image_to_string(i)
     ppi_value=text[:6]
     ppi_value = ppi_value.replace(',','.')
@@ -48,6 +49,7 @@ def abicom_ppi_value():
     plt.show()
     r = input('Digite o valor do PPI: ')
     os.remove('ppi_image.jpeg')
-    return r
+    
+    return None
 
 
