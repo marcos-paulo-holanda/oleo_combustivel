@@ -35,3 +35,4 @@ class Ream:
             value  = locale.atof(str_value)
         
         return value
+

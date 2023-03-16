@@ -140,5 +140,11 @@ if __name__ == "__main__":
     db.conecta_db()
     db.insere_registro('bd_oc', tuple(last_a1_values))
     db.insere_registro('bd_diesel_s10', tuple(last_s10_values))
-    print('finished')
+    
     # ------------------------------------------------------------------------------------------------------------------------
+
+    
+
+
+
+    

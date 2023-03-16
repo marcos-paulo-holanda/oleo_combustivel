@@ -3,8 +3,8 @@ import locale
 from datetime import datetime, timedelta, date
 import mysql.connector
 
-def insert_data(table_name, data_tuple):
-    sql_query = "INSERT INTO " + table_name +  " VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+def insert_oc(data_tuple):
+    sql_query = "INSERT INTO bd_oc VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
     
     conn = mysql.connector.connect(
             user='mrndblogin',
@@ -19,8 +19,8 @@ def insert_data(table_name, data_tuple):
     
     conn.commit()
 
-def insert_data_diesel(table_name, data_tuple):
-    sql_query = "INSERT INTO " + table_name +  " VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\
+def insert_diesel(data_tuple):
+    sql_query = "INSERT INTO bd_diesel_s10 VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\
 %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\
  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
     
@@ -38,7 +38,7 @@ def insert_data_diesel(table_name, data_tuple):
     conn.commit()
 
 def insert_commodity(data_tuple):
-    sql = "INSERT INTO bd_commodity VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+    sql_query = "INSERT INTO bd_commodity VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
     conn = mysql.connector.connect(
             user='mrndblogin',
             password='senha@2023',
@@ -52,18 +52,20 @@ def insert_commodity(data_tuple):
     
     conn.commit()
 
-df = pd.read_excel('commodity.xlsx', header=0)
+df = pd.read_excel('historico_s10.xlsx', header=0)
+df.fillna('', inplace = True)
 df.data = df.data.dt.strftime('%d/%m/%Y')
 
 
-for i in range(0, len(df)+1):
+for i in range(2):
     tupla = []
     for x in df.loc[i].values:
         if type(x) != str:
             tupla.append(str(round(x,4)))
         else:
             tupla.append(x)
-    insert_commodity(tupla)
+    print(i)
+    insert_diesel(tupla)
 
 
 
