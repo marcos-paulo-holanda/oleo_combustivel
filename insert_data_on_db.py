@@ -52,12 +52,12 @@ def insert_commodity(data_tuple):
     
     conn.commit()
 
-df = pd.read_excel('historico_s10.xlsx', header=0)
+df = pd.read_excel('commodity.xlsx', header=0)
 df.fillna('', inplace = True)
 df.data = df.data.dt.strftime('%d/%m/%Y')
 
 
-for i in range(2):
+for i in range(len(df)):
     tupla = []
     for x in df.loc[i].values:
         if type(x) != str:
@@ -65,7 +65,7 @@ for i in range(2):
         else:
             tupla.append(x)
     print(i)
-    insert_diesel(tupla)
+    insert_commodity(tupla)
 
 
 
