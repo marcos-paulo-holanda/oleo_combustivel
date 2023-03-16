@@ -38,7 +38,7 @@ def insert_diesel(data_tuple):
     conn.commit()
 
 def insert_commodity(data_tuple):
-    sql_query = "INSERT INTO bd_commodity VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+    sql_query = "INSERT INTO bd_commodity VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
     conn = mysql.connector.connect(
             user='mrndblogin',
             password='senha@2023',
