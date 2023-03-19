@@ -132,6 +132,8 @@ CREATE TABLE `bd_commodity` (
 	`var acum fo` VARCHAR(10),
 	`fator fo` VARCHAR(10),
 	`prc manaus` VARCHAR(15),
+	`atualiz preco - OCA1 Manaus` VARCHAR(15),
+	`Acum Ult Atualizacao Preço - OCA1 Manaus` VARCHAR(15),
 	`prc barcarena` VARCHAR(15),
 	`dif fo x manaus` VARCHAR(15),
 	`%  altz oca1` VARCHAR(15),
