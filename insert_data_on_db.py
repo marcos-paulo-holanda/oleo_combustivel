@@ -52,11 +52,25 @@ def insert_commodity(data_tuple):
     
     conn.commit()
 
+#------------------------------------------------------------------------
+
+df = pd.read_excel('historico_oc.xlsx', header=0)
+df.fillna('', inplace = True)
+df.data = df.data.dt.strftime('%d/%m/%Y')
+for i in range(len(df)):
+    tupla = []
+    for x in df.loc[i].values:
+        if type(x) != str:
+            tupla.append(str(round(x,4)))
+        else:
+            tupla.append(x)
+    print(i)
+    insert_oc(tupla)
+
+
 df = pd.read_excel('historico_s10.xlsx', header=0)
 df.fillna('', inplace = True)
 df.data = df.data.dt.strftime('%d/%m/%Y')
-
-
 for i in range(len(df)):
     tupla = []
     for x in df.loc[i].values:
@@ -66,8 +80,18 @@ for i in range(len(df)):
             tupla.append(x)
     print(i)
     insert_diesel(tupla)
-
-
-
-
+    
+    
+df = pd.read_excel('commodity.xlsx', header=0)
+df.fillna('', inplace = True)
+df.data = df.data.dt.strftime('%d/%m/%Y')
+for i in range(len(df)):
+    tupla = []
+    for x in df.loc[i].values:
+        if type(x) != str:
+            tupla.append(str(round(x,4)))
+        else:
+            tupla.append(x)
+    print(i)
+    insert_commodity(tupla)
 
