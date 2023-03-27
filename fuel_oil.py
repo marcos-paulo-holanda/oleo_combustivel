@@ -6,13 +6,9 @@ Link de acesso para cotação do dolar: https://olinda.bcb.gov.br/olinda/servico
 import os
 import requests as req
 import pandas as pd
-import seaborn as sns
-import numpy as np
-import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import time
 from bs4 import BeautifulSoup
-import mysql.connector
 
 class Dolar:
     '''Objeto para retonar a data e cotação de venda do dólar'''
