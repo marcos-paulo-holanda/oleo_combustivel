@@ -22,7 +22,7 @@ if __name__ == "__main__":
     # Execucação do script p/ o óleo combustível A14
     catch = 0
     data_ult_lanc = date.today()
-      
+    '''      
     while catch == 0:
         link = "https://precos.petrobras.com.br/documents/d/precos-dos-combustiveis/tabelas-de-precos-oc-"+ data_ult_lanc.strftime("%d-%m-%y") +"-pdf"
         if requests.get(link).status_code == 200:
@@ -81,7 +81,7 @@ if __name__ == "__main__":
     last_a1_values.insert(0, datetime.strftime(data_atual, '%d/%m/%Y'))
     print(last_a1_values)
     os.remove("oc.pdf")
-    
+    '''   
     # ------------------------------------------------------------------------------------------------------------------------
 
     # Execução do script p/ o diesel S500 e S10
@@ -136,10 +136,10 @@ if __name__ == "__main__":
     os.remove("diesel.pdf")
 
     # Inserindo linhas do OCA1 e do S10 no BD
-    db = DatabaseTable('oleo_database', 'mrndblogin', 'senha@2023')
-    db.conecta_db()
-    db.insere_registro('bd_oc', tuple(last_a1_values))
-    db.insere_registro('bd_diesel_s10', tuple(last_s10_values))
+##    db = DatabaseTable('oleo_database', 'mrndblogin', 'senha@2023')
+##    db.conecta_db()
+##    db.insere_registro('bd_oc', tuple(last_a1_values))
+##    db.insere_registro('bd_diesel_s10', tuple(last_s10_values))
     
     # ------------------------------------------------------------------------------------------------------------------------
 
