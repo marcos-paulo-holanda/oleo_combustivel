@@ -49,7 +49,7 @@ def insert_db(planilha: str, banco):
             else:
                 tupla.append(x)
         banco(tupla)
-
+        
 def insert_same(tabela_bd: str):
     if tabela_bd == 'bd_oc':
         conn, cur = conecta_db()
@@ -63,8 +63,6 @@ def insert_same(tabela_bd: str):
         "insert into bd_commodity select * from tbmtable;"
         "DROP TEMPORARY TABLE IF EXISTS tmptable;"
         
-
-
 if __name__ == "__main__":
     tarefa = int(input('Digite 0 replicar registros, 1 para inserir novos registros: '))
     if tarefa == 0:
@@ -72,6 +70,6 @@ if __name__ == "__main__":
     elif tarefa == 1:
         insert_db('historico_oc', insert_oc)
         insert_db('historico_s10', insert_diesel)
-        insert_db('commodity', insert_oc)
+        insert_db('commodity', insert_commodity)
 
 print('--Mission completed -- ')
