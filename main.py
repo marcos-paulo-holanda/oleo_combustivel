@@ -8,7 +8,6 @@ import pandas as pd
 # Módulos desenvolvidos
 from pdf_converter import *
 from tabelas_petrobras import *
-from database_access import *
 from converte_unidades import *
 from ream import *
 from html_page import *
@@ -130,7 +129,7 @@ if __name__ == "__main__":
     last_s10_values.append(med_exceto_manaus)
     last_s10_values.append(med_exa)
     last_s10_values.insert(0, datetime.strftime(data_atual, '%d/%m/%Y'))
-    last_s10_values.insert(1, ppi_value)
+    #last_s10_values.insert(1, ppi_value)
     print(last_s10_values)
 
     os.remove("diesel.pdf")

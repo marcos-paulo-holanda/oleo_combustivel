@@ -1,6 +1,8 @@
 import pandas as pd
 from datetime import datetime, timedelta, date
 import mysql.connector
+from warnings import simplefilter
+simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
 def conecta_db():
     conn = mysql.connector.connect(
@@ -37,8 +39,9 @@ def insert_commodity(data_tuple):
     conn.commit()
 
 #------------------------------------------------------------------------
-def insert_db(planilha: str, banco):
-    df = pd.read_excel(planilha + '.xlsx', header=0)
+def insert_db(planilha: str, subplanilha: str,banco):
+    arquivo_excel = pd.ExcelFile(planilha + '.xlsx')
+    df = pd.read_excel(arquivo_excel, subplanilha, header=0)
     df.fillna('', inplace = True)
     df.data = df.data.dt.strftime('%d/%m/%Y')
     for i in range(len(df)):
@@ -50,23 +53,10 @@ def insert_db(planilha: str, banco):
                 tupla.append(x)
         banco(tupla)
         
-def insert_same(tabela_bd: str):
-    if tabela_bd == 'bd_oc':
-        conn, cur = conecta_db()
-        "create temporary table tmptable select * from bd_oc order by id desc limit 1;"
-    elif tabela_bd == 'bd_diesel_s10':
-        conn, cur = conecta_db()
-    elif tabela_bd == 'bd_commodity':
-        conn, cur = conecta_db()
-        "create temporary table tmptable select * from bd_commodity order by id desc limit 1;"
-        "update tmptable set id = id+1;"
-        "insert into bd_commodity select * from tbmtable;"
-        "DROP TEMPORARY TABLE IF EXISTS tmptable;"
-        
 if __name__ == "__main__":
     
-    insert_db('historico_oc', insert_oc)
-    insert_db('historico_s10', insert_diesel)
-    insert_db('commodity', insert_commodity)
+    insert_db('combustiveis','oc', insert_oc)
+    insert_db('combustiveis','s10', insert_diesel)
+    insert_db('combustiveis', 'commodity', insert_commodity)
 
 print('--Mission completed -- ')
