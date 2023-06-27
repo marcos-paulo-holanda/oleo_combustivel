@@ -55,7 +55,12 @@ def fuel_oil_price():
     return fuel_oil
 
 
-    
+data_cotac, venda_cotac = Dolar().cotacao_dolar()
+brent_cotac = float(Oleo().brent())
+
+print('COTAÇÃO DO DÓLAR ', venda_cotac)
+print(brent_cotac)
+
     
 
     
